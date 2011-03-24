@@ -1,0 +1,161 @@
+\documentclass{powerdot}
+
+\title{Google's Closure Tools}
+\author{Tom Payne / Camptocamp SA}
+\date{24 March 2011}
+
+\begin{document}
+\newcommand{\code}[1]{{\small\texttt{#1}}}
+\newcommand{\link}[1]{{\small$\rightarrow$ \href{#1}{#1}}}
+
+\maketitle
+
+\begin{slide}{Closure Tools}
+\begin{itemize}
+\item Library
+\item Compiler
+\item Linter
+\item Templates
+\end{itemize}
+\link{http://code.google.com/closure/} \\
+\link{http://code.google.com/p/google-styleguide/}
+\end{slide}
+
+\begin{slide}{Library}
+\begin{itemize}
+\item Extensive
+\item Modular
+\item Cross-browser
+\item Tested
+\item Well documented
+\item A ``standard library'' for Javascript
+\end{itemize}
+\link{http://code.google.com/closure/library/}
+\end{slide}
+
+\begin{slide}{Compiler}
+\begin{itemize}
+\item Compiles Javascript to Javascript
+\item Output is a monolithic Javascript file
+\item Minimiser
+\item Optimiser
+\item Tightly integrated with library
+\end{itemize}
+\link{http://code.google.com/closure/compiler/}
+\end{slide}
+
+\begin{slide}{Compilation levels}
+\begin{enumerate}
+\item Whitespace only
+\item Simple optimizations (80\% / $1.25\times$, 85\% / $1.2\times$ gzip'ed)
+\item Advanced optimizations (25\% / $4\times$, 50\% / $2\times$ gzip'ed)
+\end{enumerate}
+\end{slide}
+
+\begin{slide}{Optimization}
+\begin{itemize}
+\item Faster
+\item Smaller
+\item Correct
+\item Compresses well
+\end{itemize}
+\link{http://code.google.com/p/closure-compiler/source/browse/}
+\end{slide}
+
+\begin{slide}{Language extensions}
+\begin{itemize}
+\item Uses @jsdoc tags in comments
+\item Strict, static type checking
+\item Constructors and interfaces
+\item Public, protected and private methods and attributes
+\item Constants, typedefs and enums
+\item Pre-processor
+\end{itemize}
+\link{http://code.google.com/closure/compiler/docs/js-for-compiler.html} \\
+\link{http://code.google.com/closure/compiler/docs/limitations.html}
+\end{slide}
+
+\begin{slide}{Name mangling}
+\begin{itemize}
+\item Internally consistent
+\item Properties only, not strings
+\begin{itemize}
+\item \code{obj.prop = 1; obj['prop'] += 1; // will fail}
+\end{itemize}
+\item Need to explicitly specify exported symbols (``exports'')
+\item Need to explicitly specify imported symbols (``externs'')
+\item Can write interface files for external libraries
+\end{itemize}
+\link{http://code.google.com/closure/compiler/docs/api-tutorial3.html}
+\end{slide}
+
+\begin{slide}{Dependencies}
+\begin{itemize}
+\item In each source file (module):
+\begin{itemize}
+\item Declare provides with \code{goog.provides}
+\item Declare requirements with \code{goog.require}
+\end{itemize}
+\item Throw everything at \code{depswriter.py}/\code{closurebuilder.py}
+\item Emits only what you need
+\end{itemize}
+\end{slide}
+
+\begin{slide}{Uncompiled code}
+\begin{itemize}
+\item Load three scripts:
+\begin{enumerate}
+\item \code{<script src="closure/goog/base.js">}
+\item \code{<script src="deps.js">}
+\item \code{<script>goog.require('my.module');</script>}
+\end{enumerate}
+\item \code{depswriter.py} generates \code{deps.js} (the map between modules and source files)
+\item \code{goog.require} loads source files as needed
+\item Great for debugging
+\end{itemize}
+\link{http://code.google.com/closure/library/docs/depswriter.html}
+\end{slide}
+
+\begin{slide}{Compiled code}
+\begin{itemize}
+\item \code{closurebuilder.py} builds monolithic JS files
+\item Load one script:
+\begin{itemize}
+\item \code{<script src="compiled.js">}
+\end{itemize}
+\item Pass \code{--namespace=my.module} to \code{closurebuilder.py} to seed
+\item Hard to debug
+\item FireBug extension
+\end{itemize}
+\link{http://code.google.com/closure/library/docs/closurebuilder.html} \\
+\link{http://code.google.com/closure/compiler/docs/inspector.html}
+\end{slide}
+
+\begin{slide}{Gotchas}
+\begin{itemize}
+\item Name mangling
+\item Mismatch from imposing strict typing on a dynamic language
+\item Differences between compiled and uncompiled code
+\item No \code{\$(document).ready()} by design
+\end{itemize}
+\end{slide}
+
+\begin{slide}{Practical experience}
+\begin{itemize}
+\item Makes Javascript more like Java :-( / :-)
+\item Refactoring required to use advanced optimizations
+\item Long compile times (JVM startup, but multithreaded)
+\item Interfacing with external packages can be tiresome
+\item Catches potential bugs
+\item Allows compiler to generate better code
+\item Improves my code
+\end{itemize}
+\end{slide}
+
+\begin{slide}{Demonstration}
+\code{git clone https://github.com/twpayne/closure-toy.git} \\
+\code{cd closure-toy} \\
+\code{make}
+\end{slide}
+
+\end{document}
