@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2006 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Toy Unit Tests - toy.Incrementer</title>
+<script src="../closure-library/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script>
+  goog.require('toy.Incrementer');
+  goog.require('goog.testing.PropertyReplacer');
+  goog.require('goog.testing.jsunit');
+  goog.require('goog.testing.recordFunction');
+</script>
+</head>
+<body>
+<script>
+
+function setUp() {
+}
+
+function tearDown() {
+}
+
+function testNumber() {
+  var i = new toy.Incrementer(toy.Incrementer.ONE);
+  assertEquals(2, i.increment(1));
+}
+
+function testArray() {
+  var i = new toy.Incrementer(toy.Incrementer.ONE);
+  assertArrayEquals([2, 3], i.incrementEach([1, 2]));
+}
+
+</script>
+</body>
+</html>
